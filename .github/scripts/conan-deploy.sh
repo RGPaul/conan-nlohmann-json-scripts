@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2018-2020 Ralph-Gordon Paul. All rights reserved.
+# Copyright (c) 2020 Ralph-Gordon Paul. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 # documentation files (the "Software"), to deal in the Software without restriction, including without limitation the 
@@ -20,31 +20,13 @@
 
 set -e
 
-#=======================================================================================================================
-# settings
+if [ "${GITHUB_OS_NAME}" == "linux" ]; then
+    source ~/.profile
+fi
 
-declare CONAN_USER=rgpaul
-declare CONAN_CHANNEL=stable
+# login to conan bintray
+conan user -p "${CONAN_PWD}" -r "${CONAN_REPOSITORY_NAME}" "${CONAN_USER}"
 
-declare LIBRARY_VERSION=3.7.3
-declare MACOS_SDK_VERSION=$(xcodebuild -showsdks | grep macosx | awk '{print $4}' | sed 's/[^0-9,\.]*//g')
-
-#=======================================================================================================================
-# create conan package
-
-function createConanPackage()
-{
-    local arch=$1
-    local build_type=$2
-
-    conan create . nlohmann-json/${LIBRARY_VERSION}@${CONAN_USER}/${CONAN_CHANNEL} -s os=Macos \
-        -s os.version=${MACOS_SDK_VERSION} -s arch=${arch} -s build_type=${build_type}
-}
-
-#=======================================================================================================================
-# create packages for all architectures and build types
-
-# this is a header only library, so we just create one package
-createConanPackage x86_64 Release
-
-# arch x86 is deprecated on macos, so we won't build for x86
+# upload all related packages
+conan upload "${CONAN_PACKAGE_NAME}/${LIBRARY_VERSION}@${CONAN_USER}/${CONAN_CHANNEL}" -r "${CONAN_REPOSITORY_NAME}" \
+    --all --confirm

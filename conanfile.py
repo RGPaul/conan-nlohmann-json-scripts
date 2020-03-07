@@ -2,13 +2,12 @@ from conans import ConanFile, CMake, tools
 
 class NlohmannJsonConan(ConanFile):
     name = "nlohmann-json"
-    version = "3.6.1"
     author = "Ralph-Gordon Paul (gordon@rgpaul.com)"
     settings = "os", "compiler", "build_type", "arch"
     # No options are necessary, this is a header only library
     # options = {"shared": [True, False], "android_ndk": "ANY", "android_stl_type":["c++_static", "c++_shared"]}
     description = "JSON for Modern C++"
-    url = "https://github.com/Manromen/conan-nlohmann-json-scripts"
+    url = "https://github.com/RGPaul/conan-nlohmann-json-scripts"
     license = "MIT"
     no_copy_source = True
 
