@@ -26,8 +26,8 @@ set -e
 declare CONAN_USER=rgpaul
 declare CONAN_CHANNEL=stable
 
-declare LIBRARY_VERSION=3.7.3
-declare MACOS_SDK_VERSION=$(xcodebuild -showsdks | grep macosx | awk '{print $4}' | sed 's/[^0-9,\.]*//g')
+declare LIBRARY_VERSION=3.9.1
+declare MACOS_SDK_VERSION=$(xcodebuild -showsdks | grep ' macosx' | awk '{print $4}' | sed 's/[^0-9,\.]*//g')
 
 #=======================================================================================================================
 # create conan package
